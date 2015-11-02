@@ -5,7 +5,12 @@
     <artifactId>parent-jee</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.meb.play</groupId>
   <artifactId>jee-ejb</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+  	<dependency>
+  		<groupId>javax</groupId>
+  		<artifactId>javaee-web-api</artifactId>
+  		<version>6.0</version>
+  	</dependency>
+  </dependencies>
 </project>
