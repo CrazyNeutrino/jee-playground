@@ -5,7 +5,7 @@
     <artifactId>parent-jee</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>jee-ejb</artifactId>
+  <artifactId>sample-ejb</artifactId>
   <dependencies>
   	<dependency>
   		<groupId>javax</groupId>
