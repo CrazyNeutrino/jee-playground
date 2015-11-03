@@ -16,11 +16,14 @@
 		<ear-plugin-version>2.9</ear-plugin-version>
 		<compiler-plugin-version>3.1</compiler-plugin-version>
 		<dependency-plugin-version>2.10</dependency-plugin-version>
+		<surefire-plugin-version>2.19</surefire-plugin-version>
 	</properties>
 
 	<build>
 		<pluginManagement>
 			<plugins>
+			
+				<!-- compiler plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -32,7 +35,7 @@
 					</configuration>
 				</plugin>
 
-				<!-- compiler plugin -->
+				<!-- ear plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-ear-plugin</artifactId>
@@ -72,6 +75,19 @@
 						</webResources>
 					</configuration>
 				</plugin>
+
+				<!-- test plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire-plugin-version}</version>
+					<configuration>
+						<classpathDependencyExcludes>
+							<classpathDependencyExcludes>javax:javaee-web-api</classpathDependencyExcludes>
+							<classpathDependencyExcludes>javax:javaee-api</classpathDependencyExcludes>
+						</classpathDependencyExcludes>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -82,11 +98,13 @@
 				<groupId>javax</groupId>
 				<artifactId>javaee-web-api</artifactId>
 				<version>6.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax</groupId>
 				<artifactId>javaee-api</artifactId>
 				<version>6.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -113,9 +131,22 @@
 				<artifactId>log4j-web</artifactId>
 				<version>2.3</version>
 			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.openejb</groupId>
+				<artifactId>openejb-core</artifactId>
+				<version>4.7.2</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<modules>
 		<module>../sample-ejb</module>
+		<module>../sample-web</module>
 	</modules>
 </project>

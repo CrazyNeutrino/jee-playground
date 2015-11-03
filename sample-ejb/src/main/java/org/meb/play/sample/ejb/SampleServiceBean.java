@@ -21,19 +21,21 @@ import org.slf4j.LoggerFactory;
 @Startup
 public class SampleServiceBean {
 
-	private static final Logger log = LoggerFactory.getLogger(SampleServiceBean.class);
+	private static final Logger log = LoggerFactory.getLogger(SampleServiceBean.class);	
 
 	@Resource
 	private TimerService timerService;
+	
+	private int counter;
 
 	@PostConstruct
 	public void initialize() {
 		TimerConfig config;
 
 		config = new TimerConfig("Config0", false);
-		timerService.createIntervalTimer(Date.from(Instant.now().plusSeconds(5)), 5000, config);
+		timerService.createIntervalTimer(Date.from(Instant.now()), 1000, config);
 		config = new TimerConfig("Config1", false);
-		timerService.createIntervalTimer(Date.from(Instant.now().plusSeconds(5)), 10000, config);
+		timerService.createIntervalTimer(Date.from(Instant.now()), 3000, config);
 	}
 
 	@Timeout
@@ -45,7 +47,12 @@ public class SampleServiceBean {
 			info = timer.getInfo();
 		}
 		if (info != null) {
+			counter++;
 			log.info("Timeout: {}, at: {}", info, DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
 		}
+	}
+	
+	public int getCounter() {
+		return counter;
 	}
 }

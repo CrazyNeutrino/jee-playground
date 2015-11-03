@@ -6,6 +6,7 @@
 		<groupId>org.meb.play</groupId>
 		<artifactId>parent-jee</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../parent-jee</relativePath>
 	</parent>
 	<artifactId>sample-web</artifactId>
 	<packaging>war</packaging>

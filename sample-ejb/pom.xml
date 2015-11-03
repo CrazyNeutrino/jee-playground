@@ -6,6 +6,7 @@
 		<groupId>org.meb.play</groupId>
 		<artifactId>parent-jee</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../parent-jee</relativePath>
 	</parent>
 	<artifactId>sample-ejb</artifactId>
 	<packaging>ejb</packaging>
@@ -18,6 +19,14 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>openejb-core</artifactId>
 		</dependency>
 	</dependencies>
 </project>
