@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -19,23 +22,36 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 @Startup
-public class SampleServiceBean {
+public class SampleServiceBean implements SampleService, Serializable {
 
-	private static final Logger log = LoggerFactory.getLogger(SampleServiceBean.class);	
+	private static final long serialVersionUID = -6364352446462385276L;
+
+	private static final Logger log = LoggerFactory.getLogger(SampleServiceBean.class);
 
 	@Resource
 	private TimerService timerService;
-	
+
+	private List<Timer> timers;
+
 	private int counter;
 
 	@PostConstruct
-	public void initialize() {
+	public void postConstruct() {
 		TimerConfig config;
 
+		timers = new ArrayList<>();
 		config = new TimerConfig("Config0", false);
-		timerService.createIntervalTimer(Date.from(Instant.now()), 1000, config);
+		timers.add(timerService.createIntervalTimer(Date.from(Instant.now()), 5000, config));
 		config = new TimerConfig("Config1", false);
-		timerService.createIntervalTimer(Date.from(Instant.now()), 3000, config);
+		timers.add(timerService.createIntervalTimer(Date.from(Instant.now()), 10000, config));
+	}
+
+	@PreDestroy
+	public void preDestroy() {
+		for (Timer timer : timers) {
+			timer.cancel();
+		}
+		timers = null;
 	}
 
 	@Timeout
@@ -48,11 +64,14 @@ public class SampleServiceBean {
 		}
 		if (info != null) {
 			counter++;
-			log.info("Timeout: {}, at: {}", info, DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
+			log.info("Timeout: {}, at: {}", info,
+					DateTimeFormatter.ISO_INSTANT.format(Instant.now()));
 		}
 	}
-	
+
+	@Override
 	public int getCounter() {
+		log.info("counter: " + counter);
 		return counter;
 	}
 }
